@@ -1,24 +1,31 @@
-document.getElementById('subtractTimeForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', function () {
+    // Set default current time in 24-hour format
+    const now = new Date();
+    document.getElementById('currentHours').value = now.getHours();
+    document.getElementById('currentMinutes').value = now.getMinutes();
 
-    const currentHours = parseInt(document.getElementById('currentHours').value, 10);
-    const currentMinutes = parseInt(document.getElementById('currentMinutes').value, 10);
-    const targetHours = parseInt(document.getElementById('targetHours').value, 10);
-    const targetMinutes = parseInt(document.getElementById('targetMinutes').value, 10);
+    document.getElementById('subtractTimeForm').addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent page reload
 
-    const totalCurrentMinutes = currentHours * 60 + currentMinutes;
-    const totalTargetMinutes = targetHours * 60 + targetMinutes;
+        const currentHours = parseInt(document.getElementById('currentHours').value, 10) || 0;
+        const currentMinutes = parseInt(document.getElementById('currentMinutes').value, 10) || 0;
+        const targetHours = parseInt(document.getElementById('targetHours').value, 10) || 0;
+        const targetMinutes = parseInt(document.getElementById('targetMinutes').value, 10) || 0;
 
-    let difference;
-    if (totalTargetMinutes >= totalCurrentMinutes) {
-        difference = totalTargetMinutes - totalCurrentMinutes;
-    } else {
-        difference = 1440 - totalCurrentMinutes + totalTargetMinutes; // Handle next day
-    }
+        const totalCurrentMinutes = currentHours * 60 + currentMinutes;
+        const totalTargetMinutes = targetHours * 60 + targetMinutes;
 
-    const resultHours = Math.floor(difference / 60);
-    const resultMinutes = difference % 60;
+        let difference;
+        if (totalTargetMinutes >= totalCurrentMinutes) {
+            difference = totalTargetMinutes - totalCurrentMinutes;
+        } else {
+            difference = 1440 - totalCurrentMinutes + totalTargetMinutes; // Handle next day
+        }
 
-    const resultText = `${resultHours} hours and ${resultMinutes} minutes`;
-    document.getElementById('result').innerText = resultText;
+        const resultHours = Math.floor(difference / 60);
+        const resultMinutes = difference % 60;
+
+        const resultText = `${resultHours} hours and ${resultMinutes} minutes`;
+        document.getElementById('result').innerText = resultText;
+    });
 });
